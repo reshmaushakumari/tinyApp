@@ -12,7 +12,7 @@ function generateRandomString() {
   console.log("random", r);
   return r;
 }
-const urlDatabase = {
+let urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
@@ -36,8 +36,10 @@ app.get('/urls/new',(req,res) => {
 });
 
 app.post('/urls',(req,res) => {
-  console.log(req.body);
-  res.send('OK');
+  console.log(req.body.longURL);
+  urlDatabase[generateRandomString()] = req.body.longURL;
+  res.redirect('/urls');
+  //res.send('OK');
 });
 
 app.get('/urls', (req, res) => {
