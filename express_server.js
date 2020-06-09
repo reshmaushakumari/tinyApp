@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 function generateRandomString() {
   let r = Math.random().toString(36).substring(7);
-  console.log("random", r);
+  //console.log("random", r);
   return r;
 }
 let urlDatabase = {
@@ -17,6 +17,7 @@ let urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+//Basic routing 
 app.get('/',(req,res) => {
   res.send("Hello!");
 })
@@ -35,11 +36,28 @@ app.get('/urls/new',(req,res) => {
   res.render('urls_new');
 });
 
+////To create a new short URL
+
 app.post('/urls',(req,res) => {
   console.log(req.body.longURL);
-  urlDatabase[generateRandomString()] = req.body.longURL;
-  res.redirect('/urls');
-  //res.send('OK');
+  const newString = generateRandomString();
+  urlDatabase[newString] = req.body.longURL;
+  res.redirect(`/urls/${newString}`);
+});
+
+
+// To Edit existing URL
+
+app.post('/urls/:id',(req,res) => {
+  const shortURL = req.params.id;
+  const longURL = req.body.longURL;
+  urlDatabase[shortURL] = longURL;
+  res.redirect('/urls'); 
+});
+
+app.get("/u/:shortURL", (req, res) => {
+  const longURL = urlDatabase[req.params.shortURL]
+  res.redirect(longURL);
 });
 
 app.get('/urls', (req, res) => {
@@ -51,6 +69,13 @@ app.get('/urls/:shortURL', (req, res) => {
   let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   res.render('urls_show', templateVars);
 });
+
+// Delete exsiting URL
+app.post('/urls/:shortURL/delete', (req,res) => {
+  const short = req.params.shortURL;
+  delete urlDatabase[short];
+  res.redirect('/urls');
+})
 
 
 app.listen(PORT,() => {
