@@ -8,6 +8,15 @@
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
+        <form action="/login" method="POST">
+            <% if(typeof(username) === 'undefined' || username === 'undefined') { %>
+              <input type="text" name="username" style="width: 200px; margin: 1em">
+              <button type="login" class="btn btn-primary">Login</button>
+            <% } else {%>
+              Logged in as <%= username %>
+              <button type="logout" class="btn btn-primary">Logout</button>
+            <% } %>
+        </form>
       </div>
     </div>
   </nav>
