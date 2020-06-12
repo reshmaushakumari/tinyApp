@@ -11,15 +11,15 @@
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
       <div class="navbar-nav ml-auto">
-        <% if (user)  { %>
-        Logged in as <%= user.email %>
         <form class="form-inline" action="/logout" method="POST">
+          <% if (user)  { %>
+          Logged In As <%= user.email %>! &nbsp;&nbsp;&nbsp;&nbsp;
           <button type="logout" class="btn btn-primary">Logout</button>
-        </form>
         <% } else { %>
         <a class="nav-item nav-link" href='/login'>Login</a>
         <a class="nav-item nav-link" href='/register'>Register</a>
         <% } %>
+      </form>
       </div>
     </div>
     </div>
